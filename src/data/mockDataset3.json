@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "Coca-Cola", "category": "Beverage", "revenue": 38, "users": 1200, "conversions": 110, "growth": 7 },
+  { "id": 2, "name": "Pepsi", "category": "Beverage", "revenue": 32, "users": 1100, "conversions": 100, "growth": 6 },
+  { "id": 3, "name": "Nestle", "category": "Food", "revenue": 92, "users": 1300, "conversions": 130, "growth": 8 },
+  { "id": 4, "name": "Unilever", "category": "Consumer", "revenue": 60, "users": 900, "conversions": 80, "growth": 5 },
+  { "id": 5, "name": "P&G", "category": "Consumer", "revenue": 76, "users": 1000, "conversions": 90, "growth": 6 }
+]

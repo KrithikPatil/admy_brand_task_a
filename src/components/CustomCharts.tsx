@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, Legend } from "recharts";
+import React, { useRef, useEffect, useState } from "react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, Legend, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, RadialBarChart, RadialBar } from "recharts";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import radarData from "@/data/mockRadarData.json";
 
 const COLORS = ["#6366f1", "#06b6d4", "#f59e42", "#f43f5e", "#22c55e", "#eab308"];
 
@@ -23,15 +24,18 @@ function guessCategoryColumn(data: any[] | null): string | null {
   return found ?? null;
 }
 
-export function CustomCharts({ data }: { data: any[] | null }) {
+export function CustomCharts({ data }: { data?: any[] | null }) {
   const [chartType, setChartType] = React.useState("line");
-  const numericCols = guessNumericColumns(data);
-  const categoryCol = guessCategoryColumn(data);
+  const chartAreaRef = useRef<HTMLDivElement>(null);
+  const [scrollNeeded, setScrollNeeded] = useState(false);
+  const safeData = data ?? null;
+  const numericCols = guessNumericColumns(safeData);
+  const categoryCol = guessCategoryColumn(safeData);
   const yKey = numericCols[0];
-  const xKey = categoryCol || numericCols[1] || Object.keys(data?.[0] || {})[0];
+  const xKey = categoryCol || numericCols[1] || Object.keys(safeData?.[0] || {})[0];
 
   // Default demo data if no upload
-  const demo = !data || !yKey;
+  const demo = !safeData || !yKey;
   const chartData = demo
     ? [
         { name: "Jan", value: 400 },
@@ -41,59 +45,121 @@ export function CustomCharts({ data }: { data: any[] | null }) {
         { name: "May", value: 900 },
         { name: "Jun", value: 1700 },
       ]
-    : data.map((row, i) => ({
+    : (safeData as any[]).map((row: any, i: number) => ({
         ...row,
         name: row[xKey] || i + 1,
         value: Number(row[yKey]),
       }));
 
+  useEffect(() => {
+    // Check if chart area overflows the card
+    const card = chartAreaRef.current?.parentElement;
+    const chart = chartAreaRef.current;
+    if (card && chart) {
+      setScrollNeeded(chart.scrollWidth > card.clientWidth);
+    }
+  }, [chartType, chartData]);
+
   return (
-    <Card className="p-6 flex flex-col gap-4 mt-8">
+    <Card className={`p-6 flex flex-col gap-4 mt-8 ${scrollNeeded ? 'overflow-x-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-primary/40 scrollbar-track-transparent' : ''}`}>
       <div className="flex flex-wrap gap-2 mb-2">
         <Button variant={chartType === "line" ? "default" : "outline"} onClick={() => setChartType("line")}>Line</Button>
         <Button variant={chartType === "bar" ? "default" : "outline"} onClick={() => setChartType("bar")}>Bar</Button>
         <Button variant={chartType === "pie" ? "default" : "outline"} onClick={() => setChartType("pie")}>Pie</Button>
+        <Button variant={chartType === "radar" ? "default" : "outline"} onClick={() => setChartType("radar")}>Radar</Button>
+        <Button variant={chartType === "radial" ? "default" : "outline"} onClick={() => setChartType("radial")}>Radial</Button>
       </div>
-      {chartType === "line" && (
-        <ResponsiveContainer width="100%" height={260}>
-          <LineChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="value" stroke="#6366f1" strokeWidth={3} dot={{ r: 5 }} />
-          </LineChart>
-        </ResponsiveContainer>
-      )}
-      {chartType === "bar" && (
-        <ResponsiveContainer width="100%" height={260}>
-          <BarChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="value" fill="#06b6d4" radius={[8, 8, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      )}
-      {chartType === "pie" && (
-        <ResponsiveContainer width="100%" height={260}>
-          <PieChart>
-            <Pie data={chartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+      {/* Chart area with fixed min width for legend overflow */}
+      <div ref={chartAreaRef} className="min-w-[400px] md:min-w-[600px] lg:min-w-[800px]">
+        {chartType === "line" && (
+          <ResponsiveContainer width="100%" height={260}>
+            <LineChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="value" stroke="#6366f1" strokeWidth={3} dot={{ r: 5 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
+        {chartType === "bar" && (
+          <ResponsiveContainer width="100%" height={260}>
+            <BarChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="value" fill="#06b6d4" radius={[8, 8, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
+        {chartType === "pie" && (
+          <div className="flex flex-col items-center w-full">
+            <ResponsiveContainer width="100%" height={220}>
+              <PieChart>
+                <Pie data={chartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+            {/* Custom legend below chart, visually contained with scroll if needed */}
+            <div
+              className="w-full flex flex-wrap justify-center items-center gap-4 pt-2 max-h-[80px] md:max-h-[120px] lg:max-h-[140px] overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-primary/40 scrollbar-track-transparent rounded bg-muted/40 px-2"
+              style={{
+                WebkitOverflowScrolling: 'touch',
+              }}
+            >
+              {chartData.map((entry, idx) => (
+                <div key={entry.name} className="flex items-center gap-2 text-sm px-2 py-1 rounded bg-muted">
+                  <span className="inline-block w-3 h-3 rounded-full" style={{ background: COLORS[idx % COLORS.length] }} />
+                  <span className="truncate max-w-[80px]" title={entry.name}>{entry.name}</span>
+                </div>
               ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
-      )}
+            </div>
+          </div>
+        )}
+        {chartType === "radar" && (
+          <ResponsiveContainer width="100%" height={260}>
+            <RadarChart cx="50%" cy="50%" outerRadius={90} data={radarData}>
+              <PolarGrid />
+              <PolarAngleAxis dataKey="metric" />
+              <PolarRadiusAxis />
+              {/* Render a Radar for each company */}
+              {Object.keys(radarData[0]).filter((k) => k !== "metric").map((company, idx) => (
+                <Radar key={company} name={company} dataKey={company} stroke={COLORS[idx % COLORS.length]} fill={COLORS[idx % COLORS.length]} fillOpacity={0.3} />
+              ))}
+              <Legend verticalAlign="bottom" height={36} align="center" wrapperStyle={{ paddingTop: 12, minWidth: 320 }} />
+              <Tooltip />
+            </RadarChart>
+          </ResponsiveContainer>
+        )}
+        {chartType === "radial" && (
+          <ResponsiveContainer width="100%" height={260}>
+            <RadialBarChart innerRadius={40} outerRadius={120} barSize={18} data={radarData.map((row) => ({ name: row.metric, ...row }))} startAngle={90} endAngle={450}>
+              {/* For demo, show Revenue for all companies as radial bars */}
+              {Object.keys(radarData[0]).filter((k) => k !== "metric").map((company, idx) => (
+                <RadialBar key={company} background dataKey={company} name={company} fill={COLORS[idx % COLORS.length]} />
+              ))}
+              <Legend iconSize={10} layout="horizontal" verticalAlign="bottom" align="center" height={36} wrapperStyle={{ paddingTop: 12, minWidth: 320 }} />
+              <Tooltip />
+            </RadialBarChart>
+          </ResponsiveContainer>
+        )}
+      </div>
       <div className="text-xs text-muted-foreground mt-2">
         {demo
-          ? "Showing demo data. Upload a dataset to see your own charts."
+          ? "Showing demo data. Upload a dataset to see your own charts. Radar/Radial charts use mock data."
           : `Charting column: ${yKey}${xKey ? ` vs ${xKey}` : ""}`}
       </div>
+      {/* Visual scroll indicator if scroll is needed */}
+      {scrollNeeded && (
+        <div className="w-full h-2 mt-2 flex items-center justify-center">
+          <div className="w-16 h-1 bg-primary/30 rounded-full animate-pulse" />
+        </div>
+      )}
     </Card>
   );
 }

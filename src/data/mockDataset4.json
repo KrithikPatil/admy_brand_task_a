@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "Samsung", "category": "Electronics", "revenue": 200, "users": 1400, "conversions": 160, "growth": 12 },
+  { "id": 2, "name": "Sony", "category": "Electronics", "revenue": 80, "users": 900, "conversions": 70, "growth": 9 },
+  { "id": 3, "name": "LG", "category": "Electronics", "revenue": 63, "users": 800, "conversions": 60, "growth": 8 },
+  { "id": 4, "name": "Panasonic", "category": "Electronics", "revenue": 70, "users": 700, "conversions": 50, "growth": 7 },
+  { "id": 5, "name": "Philips", "category": "Electronics", "revenue": 60, "users": 600, "conversions": 40, "growth": 6 }
+]

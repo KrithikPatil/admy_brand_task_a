@@ -1,0 +1,6 @@
+[
+  { "metric": "Revenue", "Google": 182, "Facebook": 86, "Amazon": 386, "Netflix": 25, "Microsoft": 143, "Apple": 274 },
+  { "metric": "Users", "Google": 1500, "Facebook": 1200, "Amazon": 900, "Netflix": 700, "Microsoft": 1100, "Apple": 1300 },
+  { "metric": "Conversions", "Google": 120, "Facebook": 95, "Amazon": 200, "Netflix": 60, "Microsoft": 80, "Apple": 150 },
+  { "metric": "Growth", "Google": 12, "Facebook": 8, "Amazon": 15, "Netflix": 10, "Microsoft": 9, "Apple": 11 }
+]

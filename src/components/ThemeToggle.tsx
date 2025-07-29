@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     if (typeof window !== "undefined") {

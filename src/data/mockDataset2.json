@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "Tesla", "category": "Automotive", "revenue": 81, "users": 900, "conversions": 70, "growth": 18 },
+  { "id": 2, "name": "SpaceX", "category": "Aerospace", "revenue": 6, "users": 300, "conversions": 20, "growth": 25 },
+  { "id": 3, "name": "Nvidia", "category": "Tech", "revenue": 27, "users": 800, "conversions": 60, "growth": 22 },
+  { "id": 4, "name": "Adobe", "category": "Software", "revenue": 17, "users": 600, "conversions": 40, "growth": 14 },
+  { "id": 5, "name": "Intel", "category": "Tech", "revenue": 63, "users": 700, "conversions": 50, "growth": 10 }
+]
