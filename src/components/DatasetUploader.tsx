@@ -41,7 +41,7 @@ export function DatasetUploader({ onData }: { onData: (data: any[]) => void }) {
   }
 
   return (
-    <Card className="p-6 flex flex-col gap-4 items-center justify-center w-full max-w-xl mx-auto mt-8">
+    <Card className="p-6 flex flex-col gap-4 items-center justify-center w-full max-w-xl mx-auto mt-8 h-64">
       <h2 className="font-bold text-lg mb-2">Upload Your Dataset</h2>
       <input
         ref={fileInput}
