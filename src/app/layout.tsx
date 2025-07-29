@@ -1,9 +1,13 @@
-
+'use client'
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Sidebar } from "@/components/Sidebar";
-import { Header } from "@/components/Header";
+import dynamic from 'next/dynamic';
+
+const DashboardShell = dynamic(() =>
+  import('@/components/DashboardShell').then((mod) => mod.DashboardShell),
+  { ssr: false }
+);
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,26 +19,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "ADmyBRAND Insights Dashboard",
-  description: "Analytics dashboard for digital marketing agencies.",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+// ...existing code...
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}> 
-        <div className="min-h-screen flex flex-col md:flex-row">
-          <Sidebar />
-          <div className="flex-1 flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-1 p-6 bg-background">{children}</main>
-          </div>
-        </div>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}>
+        <DashboardShell>{children}</DashboardShell>
       </body>
     </html>
   );
