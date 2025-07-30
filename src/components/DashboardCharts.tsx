@@ -16,6 +16,8 @@ import {
   LegendProps,
 } from "recharts";
 import DraggableLegend from '@/components/DraggableLegend';
+import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 const lineData = [
   { name: "Jan", value: 400 },
@@ -59,67 +61,88 @@ export function DashboardCharts({ data }: { data?: any[] }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-full">
-      <div className="bg-card rounded-lg p-6 shadow flex flex-col">
-        <h2 className="font-semibold mb-4">Revenue Trend</h2>
-        <ResponsiveContainer width="100%" height={220}>
-          <LineChart
-            data={lineChartData}
-            margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="value"
-              stroke="#6366f1"
-              strokeWidth={3}
-              dot={{ r: 5 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-
-      <div className="bg-card rounded-lg p-6 shadow flex flex-col">
-        <h2 className="font-semibold mb-4">Users by Channel</h2>
-        <ResponsiveContainer width="100%" height={220}>
-          <BarChart
-            data={barChartData}
-            margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="users" fill="#06b6d4" radius={[8, 8, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-
-      <div className="bg-card rounded-lg p-6 shadow flex flex-col">
-        <h2 className="font-semibold mb-4">Conversions by Company</h2>
-        <ResponsiveContainer width="100%" height={220}>
-          <PieChart>
-            <Pie
-              data={pieChartData}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={70}
-              label
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+      >
+        <Card>
+          <h2 className="font-semibold mb-4">Revenue Trend</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart
+              data={lineChartData}
+              margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
             >
-              {pieChartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#6366f1"
+                strokeWidth={3}
+                dot={{ r: 5 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </Card>
+      </motion.div>
 
-        <DraggableLegend data={pieChartData} />
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
+      >
+        <Card>
+          <h2 className="font-semibold mb-4">Users by Channel</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+              data={barChartData}
+              margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="users" fill="#06b6d4" radius={[8, 8, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </Card>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
+      >
+        <Card>
+          <h2 className="font-semibold mb-4">Conversions by Company</h2>
+          <ResponsiveContainer width="100%" height={200}>
+            <PieChart>
+              <Pie
+                data={pieChartData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={70}
+                label
+              >
+                {pieChartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+
+          <DraggableLegend data={pieChartData} />
+        </Card>
+      </motion.div>
     </div>
   );
 }
