@@ -14,16 +14,18 @@ export default function Profile() {
     >
       <h1 className="text-3xl font-bold mb-6 text-center">Profile</h1>
       <Card className="p-6 shadow-xl bg-white/80 dark:bg-gray-800">
-        <CardContent className="flex items-center space-x-6">
-          <Avatar className="h-24 w-24" />
-          <div>
-            <h2 className="text-2xl font-semibold">John Doe</h2>
-            <p className="text-gray-600 dark:text-gray-300">johndoe@example.com</p>
-            <p className="mt-2 text-sm text-gray-500">Account Type: Premium</p>
+        <CardContent className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full p-0 items-center sm:items-start">
+          <div className="flex justify-center sm:block w-full sm:w-auto">
+            <Avatar className="h-0 w-24" />
+          </div>
+          <div className="text-center sm:text-left w-full">
+            <h2 className="text-2xl font-semibold break-words">John Doe</h2>
+            <p className="text-gray-600 dark:text-gray-300 break-words">johndoe@example.com</p>
+            <p className="mt-2 text-sm text-gray-500 break-words">Account Type: Premium</p>
           </div>
         </CardContent>
       </Card>
-
+      
       <motion.div
         className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6"
         initial={{ opacity: 0 }}
