@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# ADmyBRAND Insights Dashboard
 
-First, run the development server:
+A modern analytics dashboard and reports page for ADmyBRAND Insights, built with Next.js, Tailwind CSS, shadcn/ui, and Recharts. Features advanced charting, export/print, interactive legends, and smooth UI animations.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+
+- **Dashboard & Reports Pages**: View analytics in a clean, card-based layout.
+- **Chart Types**: Line, Bar, Pie, Radar, and Radial Bar charts powered by Recharts.
+- **Custom Data Upload**: Upload your own datasets for instant visualization.
+- **Interactive Legends**: Draggable legends for radar and radial charts.
+- **Export/Print**: Export charts and reports as PDF for sharing or printing.
+- **Visual Enhancements**: Modern card design, fade-in animations, and consistent chart dimensions.
+- **Responsive Design**: Works across desktop and mobile devices.
+
+## Setup Instructions
+
+
+### 1. Clone the Repository
+```sh
+git clone https://github.com/KrithikPatil/admy_brand_task_a.git
+cd admy_brand_task_a
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Sample Data for Upload
+You can use the provided sample JSON file to test the upload feature:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**[Download sample_upload.json](https://drive.google.com/file/d/1Pe7if1Du8L4ToVqaAQG4UbxFGNQRo67K/view?usp=sharing)**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+After downloading, use the dashboard's upload button to select and visualize this file.
 
-## Learn More
+### 2. Install Dependencies
+```sh
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Run the Development Server
+```sh
+npm run dev
+```
+Visit `http://localhost:3000` in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Build for Production
+```sh
+npm run build
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
+- `src/components/CustomCharts.tsx` — Main chart component with chart picker, legend, and export features.
+- `src/components/ui/card.tsx` — Card UI component.
+- `src/components/DraggableLegend.tsx` — Interactive legend for radar/radial charts.
+- `src/data/mockRadarData.json` — Demo data for radar chart.
+- `src/data/mockRadialData.json` — Demo data for radial bar chart.
 
-## Deploy on Vercel
+## Customization
+- **Add new chart types**: Extend `CustomCharts.tsx`.
+- **Change theme/colors**: Edit Tailwind config or `COLORS` array in chart components.
+- **Upload your own data**: Use the upload feature on the dashboard.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Dependencies
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Recharts](https://recharts.org/)
+- [framer-motion](https://www.framer.com/motion/)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+MIT
+
+---
+For questions or support, contact the repository owner.
