@@ -10,6 +10,7 @@ import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Analytics } from "@vercel/analytics/next"
 import DataTable from "@/components/DataTable";
 import mockData from "@/data/mockDataset.json";
 
@@ -49,6 +50,7 @@ export default function Home() {
     <div className="flex flex-col gap-8">
       <h1 className="text-2xl font-bold mb-2">Overview</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <Analytics/>
         <Card className="w-full h-full flex flex-col justify-between p-6 shadow-sm">
           <div className="flex flex-col gap-4 flex-1">
             <DatasetUploader onData={setData} />
